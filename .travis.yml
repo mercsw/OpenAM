@@ -1,3 +1,4 @@
+language: java
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
@@ -13,6 +14,6 @@ addons:
       name: "mercsw/OpenAM"
       description: "Build submitted via Travis CI"
     notification_email: merc@securitywire.com
-    build_command_prepend: "mvn clean"
-    build_command:   "mvn -DskipTests=true install"
+    build_command_prepend: "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
+    build_command:   "mvn -DskipTests=true clean install"
     branch_pattern: coverity_scan
