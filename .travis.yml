@@ -1,0 +1,18 @@
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "F+wjG9FNg0wnqmCJh3/CKjojh278SEvLLJrcgmAR6g6RrZ7HDQpQfOVIAUGqAgS1l+myRGF9kFnO5+gq9v3Ese7MOo+zR7HYlSHl4qKnwZsGaUY+lgfkHChz0KBbHL33TDTcy4YFpnU5g4rPFI/POFnpWjBxthbkm2Gb/0s75IrsAkJ0COHqpX07CQvFWVVxUVEXe6sJbNrVdXBxB9zq2HjKp+I2BjJTYLe/IasxQEeL7VruyYowlK7sN3lvs0SCJeoagfTO6cfaqho6Bbw1vERkzWilKkMzMS1aEQCFKnso0Oloo4HXfsUOftajrde0qYxhyfK3hJ5cPv35y79+X064VTQgSu/ruNmp2/0z7xV7SI5J8ezSpcOgwL6EQ8W8IgLcdRT1dl91GlfAJsfs7CpWxtuEuq62G7DB/wQID3xWfXlQoxl6Xkjto6MYtEHjNdNT0iFUxRg/BFKJ4QuOPG20Vo3V/SfS01QsNnksCdNNvKtp8RvJH/eBmO1mQAT2hJ/O7N4OZq5VMQSktsxl6k7DkQ9aHstAEPIUmSAhu56ITpTvYwo9RY5TheFuSHM8oHD8r3X8R+FvFpAc0qVFldV3iYwEywcW8xfHv2xQBklD5NUgRKLSycWFuNnUP/26qgNxWEVJh/vByk7KJoInCcVecSGi7jF2ir0sWOymyNM="
+
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "mercsw/OpenAM"
+      description: "Build submitted via Travis CI"
+    notification_email: merc@securitywire.com
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true compile"
+    branch_pattern: coverity_scan
